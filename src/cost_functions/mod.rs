@@ -14,9 +14,8 @@ use std::io::{Error, ErrorKind};
 /// ## Implement the following matlab formula:
 ///
 ///
-/// J = sum(((theta[i] * X[j]) - y).^2 ./(2 * m), "all");
+/// J = sum(((theta\[i\] * X\[j\]) - y).^2 ./(2 * m), "all");
 ///
-
 pub fn get_cost(x_mtrx: &[Vec<f64>], y_vec: &[f64], theta: &[f64]) -> Result<f64, io::Error> {
     let num_feat = theta.len();
     let mut h_x: Vec<f64> = vec![];

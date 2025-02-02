@@ -137,11 +137,7 @@ pub fn get_determinant(matrix: &[Vec<f64>]) -> Result<f64, io::Error> {
             }
 
             // List of determinants for cofactor matrixes
-            let der = match get_determinant(&cofactor) {
-                Ok(determinant) => determinant,
-                Err(e) => return Err(e),
-            };
-
+            let der = get_determinant(&cofactor)?;
             deter_list.push(der);
             cofactor.clear();
         }
@@ -168,50 +164,44 @@ pub fn get_determinant(matrix: &[Vec<f64>]) -> Result<f64, io::Error> {
 
 ///# Calculate inverted matrix from provided matrix
 /// Currently using adjugate matrix
-/*
-   Formula:
-   A^-1 = 1/|A| * (A~)
-
-   Sample 3x3 matrix:
-       A = [[3.0, 0.0, 2.0],
-           [2.0, 0.0, -2.0],
-           [0.0, 1.0, 1.0]]
-
-   Determinant = 10
-
-   Matrix of Minors = [[0*1 - (-2)*1,	2*1 - (-2)*0,	2*1 - 0*0],
-                       [0*1 - 2*1,	3*1 - 2*0,	3*1 - 0*0],
-                       [0*(-2) - 2*0,	3*(-2) - 2*2,	3*0 - 0*2]]
-
-                   = [[2, 2, 2],
-                   [-2, 3, 3],
-                   [0, -10, 0]]
-
-   Matrix of Cofactors = [[2, -2, 2],
-                           [2, 3, -3],
-                           [0, 10, 0]]
-
-   Transposed Matrix = [[2, 2, 0],
-                       [-2, 3, 10]
-                       [2, -3, 0]]
-
-       Inverted Matrix = 1/determinant * Transposed Matrix
-
-   A^-1 = [[2, 2, 0],
-           [-2, 3, 10]
-           [2, -3, 0]] / 10
-
-       = [[0.2, 0.2, 0],
-           [-0.2, 0.3, 1],
-           [0.2, -0.3, 0]]
-*/
-
+///   Formula:
+///   A^-1 = 1/|A| * (A~)
+///
+///   Sample 3x3 matrix:
+///       A = [[3.0, 0.0, 2.0],
+///           [2.0, 0.0, -2.0],
+///           [0.0, 1.0, 1.0]]
+///
+///   Determinant = 10
+///
+///   Matrix of Minors = [[0*1 - (-2)*1, 2*1 - (-2)*0, 2*1 - 0*0],
+///                       [0*1 - 2*1, 3*1 - 2*0, 3*1 - 0*0],
+///                       [0*(-2) - 2*0, 3*(-2) - 2*2, 3*0 - 0*2]]
+///
+///                   = [[2, 2, 2],
+///                   [-2, 3, 3],
+///                   [0, -10, 0]]
+///
+///   Matrix of Cofactors = [[2, -2, 2],
+///                           [2, 3, -3],
+///                           [0, 10, 0]]
+///
+///   Transposed Matrix = [[2, 2, 0],
+///                       [-2, 3, 10]
+///                       [2, -3, 0]]
+///
+///       Inverted Matrix = 1/determinant * Transposed Matrix
+///
+///   A^-1 = [[2, 2, 0],
+///           [-2, 3, 10]
+///           [2, -3, 0]] / 10
+///
+///       = [[0.2, 0.2, 0],
+///           [-0.2, 0.3, 1],
+///           [0.2, -0.3, 0]]
 pub fn get_invert(matrix: &[Vec<f64>]) -> Result<Vec<Vec<f64>>, io::Error> {
     let mut mtrx_result: Vec<Vec<f64>>;
-    let determinant: f64 = match get_determinant(matrix) {
-        Ok(determinant) => determinant,
-        Err(e) => return Err(e),
-    };
+    let determinant: f64 = get_determinant(matrix)?;
 
     if matrix.len() == 2 {
         mtrx_result = matrix.to_vec();
@@ -250,10 +240,7 @@ pub fn get_invert(matrix: &[Vec<f64>]) -> Result<Vec<Vec<f64>>, io::Error> {
                     }
                     mtrx_der_row.clear();
                 }
-                let tmp_der: f64 = match get_determinant(&mtrx_der) {
-                    Ok(determinant) => determinant,
-                    Err(e) => return Err(e),
-                };
+                let tmp_der: f64 = get_determinant(&mtrx_der)?;
 
                 mtrx_minors_row.push(tmp_der);
                 mtrx_der.clear();
@@ -348,10 +335,7 @@ pub fn get_theta(x: &[Vec<f64>], y: &[f64]) -> Result<Box<Vec<f64>>, io::Error> 
     /*
         Calculate inverted X * X.transposed
     */
-    let invrt_mtrx = match get_invert(&mltply_rslt) {
-        Ok(invrt_mtrx) => invrt_mtrx,
-        Err(e) => return Err(e),
-    };
+    let invrt_mtrx = get_invert(&mltply_rslt)?;
 
     /*
         Calculate y * X.transposed
