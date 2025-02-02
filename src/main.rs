@@ -1,6 +1,6 @@
 pub use std::path::Path;
 use std::{env, io};
-use ml_rust::sample_run;
+use linear_regression::sample_run;
 
 const ARGS_SIZE_LIMIT: usize = 2;
 
@@ -24,7 +24,7 @@ fn display_help(err: io::Error) {
     eprintln!("ERROR: {}\n", err);
     let help_message = String::from("Usage: Sample run using input data file");
     println!("{}", help_message);
-    std::process::exit(exitcode::USAGE);
+    std::process::exit(1);
 }
 
 fn main() {

@@ -94,7 +94,7 @@ pub fn sample_run(input_file_path: &Path) {
 }
 #[cfg(test)]
 mod tests {
-    use super::linear_regression::normal_equation;
+    use super::normal_equation;
 
     #[test]
     #[should_panic]
