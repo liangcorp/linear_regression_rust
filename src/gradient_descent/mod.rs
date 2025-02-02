@@ -67,9 +67,10 @@ pub fn get_thetas(
     let x_slice = &x_vec_slice[..];
 
     for _ in 0..iterations {
-        // Shadow h_x from vec to vec slice
-        // speeds up the execution a bit
+        // Shadow h_x from vec to vec slice to speeds up the execution a bit
         let h_x = &mut h_x[..];
+        // Linear Regression Hypothesis
+        // h(x) = theta_0 * x_0 + theta_1 * x_1
         for (i, x_row) in x_slice[..].iter().enumerate().take(num_train) {
             sum = 0.0;
             for j in 0..num_feat {
